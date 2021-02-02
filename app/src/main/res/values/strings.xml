@@ -3,4 +3,7 @@
     <string name="action_home">Home</string>
     <string name="action_create_shopping_list">Create Shoppinig List</string>
     <string name="title_activity_create_list">Create Shopping List</string>
+    <string name="name">Name</string>
+    <string name="store">Store</string>
+    <string name="date">Date</string>
 </resources>
