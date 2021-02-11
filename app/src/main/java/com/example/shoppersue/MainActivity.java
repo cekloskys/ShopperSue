@@ -10,11 +10,22 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CursorAdapter;
+import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
 
     // declare Intent
     Intent intent;
+
+    // declare a DBHandler
+    DBHandler dbHandler;
+
+    // declare a ShoppingLists CursorAdapter
+    CursorAdapter shoppingListsCursorAdapter;
+
+    // declare a ListView
+    ListView shopperListView;
 
     /**
      * This method initializes the Action Bar and View of the activity.
@@ -28,6 +39,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // initialize DBHandler
+        dbHandler = new DBHandler(this, null);
+
+        // initialize ListView
+        shopperListView = (ListView) findViewById(R.id.shopperListView);
+
+        // initialize ShoppingLists CursorAdapter
+        shoppingListsCursorAdapter = new ShoppingLists(this,
+                dbHandler.getShoppingLists(), 0);
+
+        // set ShoppingLists CursorAdapter on the ListView
+        shopperListView.setAdapter(shoppingListsCursorAdapter);
 
     }
 
