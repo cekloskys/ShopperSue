@@ -110,4 +110,40 @@ public class DBHandler extends SQLiteOpenHelper {
         // execute select statement and return it as a Cursor
         return db.rawQuery(query, null);
     }
+
+    /**
+     * This method gets called when the ViewList Activity is started.
+     * @param id shopping list id
+     * @return shopping list name
+     */
+    public String getShoppingListName(int id) {
+
+        // get reference to the shopper database
+        SQLiteDatabase db = getWritableDatabase();
+
+        // declare and initialize the String that will be returned
+        String name = "";
+
+        // define select statement
+        String query = "SELECT * FROM " + TABLE_SHOPPING_LIST +
+                " WHERE " + COLUMN_LIST_ID + " = " + id;
+
+        // execute select statement and store it in a Cursor
+        Cursor cursor = db.rawQuery(query, null);
+
+        // move to the first row in the Cursor
+        cursor.moveToFirst();
+
+        // check that name component of Cursor isn't equal to null
+        if ((cursor.getString(cursor.getColumnIndex("name")) != null)){
+            // get the name component of the Cursor and store it in String
+            name = cursor.getString(cursor.getColumnIndex("name"));
+        }
+
+        // close reference to shopper database
+        db.close();
+
+        // return shopping list name
+        return name;
+    }
 }

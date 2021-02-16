@@ -6,4 +6,6 @@
     <string name="name">Name</string>
     <string name="store">Store</string>
     <string name="date">Date</string>
+    <string name="title_activity_veiw_list">Veiw List</string>
+    <string name="action_add_item">Add Item</string>
 </resources>
