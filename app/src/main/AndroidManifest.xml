@@ -10,9 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShopperSue">
         <activity
+            android:name=".AddItem"
+            android:label="@string/title_activity_add_item"
+            android:theme="@style/Theme.ShopperSue.NoActionBar"></activity>
+        <activity
             android:name=".VeiwList"
             android:label="@string/title_activity_veiw_list"
-            android:theme="@style/Theme.ShopperSue.NoActionBar"></activity>
+            android:theme="@style/Theme.ShopperSue.NoActionBar" />
         <activity
             android:name=".CreateList"
             android:label="@string/title_activity_create_list"
