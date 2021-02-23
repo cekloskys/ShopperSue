@@ -12,8 +12,13 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
-public class AddItem extends AppCompatActivity {
+public class AddItem extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     // declare a Bundle and a long used to get and store the data sent from
     // the ViewList
@@ -25,6 +30,16 @@ public class AddItem extends AppCompatActivity {
 
     // declare Intent
     Intent intent;
+
+    // declare EditTexts
+    EditText nameEditText;
+    EditText priceEditText;
+
+    // declare Spinner
+    Spinner quantitySpinner;
+
+    // declare a String to store quantity selected in Spinner
+    String quantity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +56,27 @@ public class AddItem extends AppCompatActivity {
 
         // initialize the DBHandler
         dbHandler = new DBHandler(this, null);
+
+        // initialize EditTexts
+        nameEditText = (EditText) findViewById(R.id.nameEditText);
+        priceEditText = (EditText) findViewById(R.id.priceEditTetxt);
+
+        // initialize Spinner
+        quantitySpinner = (Spinner) findViewById(R.id.quantitySpinner);
+
+        // initialize ArrayAdapter with values in quantities string-array
+        // and stylize it with style defined by simple_spinner_item
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.quantities, android.R.layout.simple_spinner_item);
+
+        // further stylize the ArrayAdapter
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
+        // set the ArrayAdapter on the Spinner
+        quantitySpinner.setAdapter(adapter);
+
+        // register an OnItemSelectedListener to Spinner
+        quantitySpinner.setOnItemSelectedListener(this);
     }
 
     /**
@@ -89,7 +125,47 @@ public class AddItem extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method gets called when the add button in the Action Bar gets clicked.
+     * @param menuItem add item menu item
+     */
     public void addItem(MenuItem menuItem) {
+
+        // get data input in EditTexts and store it in Strings
+        String name = nameEditText.getText().toString();
+        String price = priceEditText.getText().toString();
+
+        // trim Strings and see if they're equal to empty Strings
+        if (name.trim().equals("") || price.trim().equals("") ||
+                quantity.trim().equals("")) {
+            // display toast saying "Please enter a name, price, and quantity!"
+            Toast.makeText(this, "Please enter a name, price, and quantity!",
+                    Toast.LENGTH_LONG).show();
+        } else {
+            // add item into database
+            dbHandler.addItemToList(name, Double.parseDouble(price),
+                    Integer.parseInt(quantity), (int) id);
+
+            // display toast saying "Item added!"
+            Toast.makeText(this, "Item added!",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * This method gets called when an item in the Spinner is selected.
+     * @param parent Spinner AdapterView
+     * @param view AddItem view
+     * @param position position of item that was selected in the Spinner
+     * @param id database id of item that was selected in the Spinner
+     */
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        quantity = parent.getItemAtPosition(position).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
 }
