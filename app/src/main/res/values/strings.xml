@@ -10,6 +10,8 @@
     <string name="action_add_item">Add Item</string>
     <string name="title_activity_add_item">Add Item</string>
     <string name="action_view_list">View List</string>
+    <string name="title_activity_view_item">View Item</string>
+    <string name="delete_item">Delete Item</string>
     <string-array name="quantities">
         <item></item>
         <item>1</item>
