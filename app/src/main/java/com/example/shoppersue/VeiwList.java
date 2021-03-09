@@ -83,6 +83,18 @@ public class VeiwList extends AppCompatActivity {
                 // call method that updates the clicked items item_has to true
                 // if it's false
                 updateItem(id);
+
+                // initialize Intent for ViewItem Activity
+                intent = new Intent(VeiwList.this, ViewItem.class);
+
+                // put the database id of the clicked item in the intent
+                intent.putExtra("_id", id);
+
+                // put the database id of the clicked shopping list in the intent
+                intent.putExtra("_list_id", VeiwList.this.id);
+
+                // start the Activity
+                startActivity(intent);
             }
         });
     }
