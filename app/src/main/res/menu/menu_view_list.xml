@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.shoppersue.VeiwList">
     <item
+        android:id="@+id/delete_list"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/delete_list"
+        app:showAsAction="always"
+        android:onClick="deleteList"/>
+    <item
         android:id="@+id/action_home"
         android:orderInCategory="1"
         android:title="@string/action_home"

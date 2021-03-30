@@ -12,6 +12,7 @@
     <string name="action_view_list">View List</string>
     <string name="title_activity_view_item">View Item</string>
     <string name="delete_item">Delete Item</string>
+    <string name="delete_list">Delete List</string>
     <string-array name="quantities">
         <item></item>
         <item>1</item>

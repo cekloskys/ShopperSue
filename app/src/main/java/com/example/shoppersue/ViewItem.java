@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class ViewItem extends AppCompatActivity {
 
@@ -131,7 +132,18 @@ public class ViewItem extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method gets called when the delete button in the Action Bar of the
+     * View Item activity gets clicked.  It deletes a row in the shoppinglistitem
+     * table.
+     * @param menuItem delete item menu item
+     */
     public void deleteItem(MenuItem menuItem) {
 
+        // delete shopping list item from database
+        dbHandler.deleteShoppingListItem((int) id);
+
+        // display "Item deleted!" toast
+        Toast.makeText(this, "Item deleted!", Toast.LENGTH_LONG).show();
     }
 }

@@ -288,4 +288,117 @@ public class DBHandler extends SQLiteOpenHelper {
         // execute select statement and return it as a Cursor
         return db.rawQuery(query, null);
     }
+
+    /**
+     * This method gets called when the delete button in the Action Bar of the
+     * View Item activity gets clicked.  It deletes a row in the shoppinglistitem
+     * table.
+     * @param itemId database id of the shopping list item to be deleted
+     */
+    public void deleteShoppingListItem(Integer itemId) {
+
+        // get reference to the shopper database
+        SQLiteDatabase db = getWritableDatabase();
+
+        // define a delete statement and store it in String
+        String query = "DELETE FROM " + TABLE_SHOPPING_LIST_ITEM +
+                " WHERE " + COLUMN_ITEM_ID + " = " + itemId;
+
+        // execute the delete statement
+        db.execSQL(query);
+
+        // close database reference
+        db.close();
+    }
+
+    /**
+     * This method gets called when the delete button in the Action Bar of the
+     * View List activity gets clicked.  It deletes a row in the shoppinglistitem
+     * and shoppinglist tables.
+     * @param listId database id of the shopping list to be deleted
+     */
+    public void deleteShoppingList(Integer listId) {
+
+        // get reference to the shopper database
+        SQLiteDatabase db = getWritableDatabase();
+
+        // define a delete statement and store it in String
+        String query1 = "DELETE FROM " + TABLE_SHOPPING_LIST_ITEM +
+                " WHERE " + COLUMN_ITEM_LIST_ID + " = " + listId;
+
+        // execute the delete statement
+        db.execSQL(query1);
+
+        // define a delete statement and store it in String
+        String query2 = "DELETE FROM " + TABLE_SHOPPING_LIST +
+                " WHERE " + COLUMN_LIST_ID + " = " + listId;
+
+        // execute the delete statement
+        db.execSQL(query2);
+
+        // close database reference
+        db.close();
+    }
+
+    /**
+     * This method gets called when the View List activity is started.
+     * @param listId database id of the shopping list
+     * @return Total cost of the shopping list
+     */
+    public String getShoppingListTotalCost(int listId) {
+
+        // get reference to the shopper database
+        SQLiteDatabase db = getWritableDatabase();
+
+        // declare and initialize the String returned by the method
+        String cost = "";
+
+        // declare a Double that will be used to compute the total cost
+        Double totalCost = 0.0;
+
+        // define select statement and store it in String
+        String query = "SELECT * FROM " + TABLE_SHOPPING_LIST_ITEM +
+                " WHERE " + COLUMN_ITEM_LIST_ID + " = " + listId;
+
+        // execute select statement and store its return in a Cursor
+        Cursor c = db.rawQuery(query, null);
+
+        // loop through the rows in the Cursor
+        while (c.moveToNext()) {
+            // add the cost of the current row into the total cost
+            totalCost += (c.getDouble(c.getColumnIndex("price")) *
+                    (c.getInt(c.getColumnIndex("quantity"))));
+        }
+
+        // convert the total cost to a String
+        cost = String.valueOf(totalCost);
+
+        // close database reference
+        db.close();
+
+        // return String
+        return cost;
+    }
+
+    /**
+     * This method gets called when a shopping list item is clicked in the ViewList activity.
+     * @param listId database id of the shopping list on which the shopping list item exists
+     * @return number of unpurchased shopping list items on the specified shopping list
+     */
+    public int getUnpurchasedItems (Integer listId){
+
+        // get reference to the shopper database
+        SQLiteDatabase db = getWritableDatabase();
+
+        // define select statement
+        String query = "SELECT * FROM " + TABLE_SHOPPING_LIST_ITEM +
+                " WHERE " + COLUMN_ITEM_HAS + " = \"false\" " +
+                " AND " + COLUMN_ITEM_LIST_ID + " = " + listId;
+
+        // execute select statement and store its return in a Cursor
+        Cursor cursor = db.rawQuery(query, null);
+
+        // return a count of the number of items in the Cursor
+        return cursor.getCount();
+    }
 }
